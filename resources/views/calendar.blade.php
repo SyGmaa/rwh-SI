@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Calendar - Admin RWH</title>
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="{{ asset('admin/assets/css/app.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/assets/bundles/fullcalendar/fullcalendar.min.css') }}">
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/assets/css/components.css') }}">
+  <!-- Custom style CSS -->
+  <link rel="stylesheet" href="{{ asset('admin/assets/css/custom.css') }}">
+  <link rel='shortcut icon' type='image/x-icon' href='{{ asset(' admin/assets/img/gabut_logo.ico') }}' />
+</head>
+
+<body>
+  <div class="loader"></div>
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <!-- Navbar -->
+      @include('layouts.partials.navbar')
+      <!-- Sidebar -->
+      @include('layouts.partials.sidebar')
+      <!-- Main Content -->
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4>Calendar</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="fc-overflow">
+                      <div id="myEvent"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        @include('layouts.partials.settingsidebar')
+      </div>
+      @include('layouts.partials.footer')
+    </div>
+  </div>
+  <!-- General JS Scripts -->
+  <script src="{{ asset('admin/assets/js/app.min.js') }}"></script>
+  <!-- JS Libraies -->
+  <script src="{{ asset('admin/assets/bundles/fullcalendar/fullcalendar.min.js') }}"></script>
+  <!-- Page Specific JS File -->
+  <script src="{{ asset('admin/assets/js/page/calendar.js') }}"></script>
+  <!-- Template JS File -->
+  <script src="{{ asset('admin/assets/js/scripts.js') }}"></script>
+  <!-- Custom JS File -->
+  <script src="{{ asset('admin/assets/js/custom.js') }}"></script>
+</body>
+
+
+</html>

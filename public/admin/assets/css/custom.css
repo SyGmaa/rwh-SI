@@ -1,0 +1,46 @@
+.text-primary {
+    color: #0f6692;
+}
+
+/*# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY3VzdG9tLmNzcyIsInNvdXJjZXMiOlsiY3VzdG9tLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiJ9 */
+
+/*# sourceMappingURL=custom.css.map */
+
+/* Tata daftar dokumen agar tombol "Lihat" sejajar dengan nama dokumen */
+.dokumen-list {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.dokumen-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f9f9f9;
+    padding: 6px 10px;
+    margin-bottom: 5px;
+    border-radius: 6px;
+}
+
+.dokumen-list li a.btn {
+    margin-left: 10px;
+    flex-shrink: 0;
+}
+
+/* .header-logo {
+    width: 60px;
+} */
+
+/* Styling for activity icon in log-activity show page */
+.icon-gama i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 24px;
+    margin-right: 15px;
+    box-shadow: 0 9px 8px rgba(0, 0, 0, 0.1);
+}
