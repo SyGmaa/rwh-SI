@@ -71,13 +71,7 @@ Sistem ini dilengkapi dengan dashboard admin modern yang menawarkan wawasan real
     composer install
     ```
 
-3.  **Instal Dependensi Frontend**
-
-    ```bash
-    npm install && npm run build
-    ```
-
-4.  **Konfigurasi Environment**
+3.  **Konfigurasi Environment**
     Salin file `.env.example` menjadi `.env` dan sesuaikan pengaturan database Anda:
 
     ```env
@@ -86,12 +80,19 @@ Sistem ini dilengkapi dengan dashboard admin modern yang menawarkan wawasan real
     DB_PASSWORD=
     ```
 
-5.  **Persiapan Database**
+4.  **Persiapan Database & Storage**
 
     ```bash
     php artisan key:generate
     php artisan migrate --seed
+    php artisan storage:link
     ```
+
+5.  **Kredensial Default**
+    Setelah menjalankan seeder, Anda dapat login dengan:
+
+    -   **Email**: `admin@rwh.com`
+    -   **Password**: `password`
 
 6.  **Jalankan Aplikasi**
     ```bash

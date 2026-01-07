@@ -17,6 +17,9 @@ class DatabaseSeeder extends Seeder
         // Seed Users
         $this->call(UserSeeder::class);
 
+        // Seed Settings
+        $this->call(SettingSeeder::class);
+
         // Seed JenisPaket
         $this->call(JenisPaketSeeder::class);
 
