@@ -1,4 +1,4 @@
-@extends('layouts.app1')
+@extends('layouts.app')
 @section('title', 'Calendar')
 
 @section('css')
@@ -44,3 +44,4 @@ var calendar = $('#myEvent').fullCalendar({
 });
 </script>
 @endsection
+

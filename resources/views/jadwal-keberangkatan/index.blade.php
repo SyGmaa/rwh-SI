@@ -1,4 +1,4 @@
-@extends('layouts.app1')
+@extends('layouts.app')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('admin/assets/bundles/datatables/datatables.min.css') }}">
@@ -49,7 +49,7 @@
                   <th>Sisa Kuota</th>
                   <th>Status</th>
                   <th>Keterangan</th>
-                  <th>Action</th>
+                  <th class="text-center">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -75,15 +75,18 @@
                     @endif
                   </td>
                   <td>{{ $jadwal->keterangan ?? '-' }}</td>
-                  <td>
-                    <a href="{{ route('jadwal-keberangkatan.edit', $jadwal->id) }}" class="btn btn-info btn-sm">Edit</a>
-                    <form action="{{ route('jadwal-keberangkatan.destroy', $jadwal->id) }}" method="POST"
-                      style="display: inline;">
-                      @csrf
-                      @method('DELETE')
-                      <button type="submit" class="btn btn-danger btn-sm"
-                        onclick="return confirm('Apakah Anda yakin ingin menghapus jadwal keberangkatan ini?')">Hapus</button>
-                    </form>
+                  <td class="text-center">
+                    <div class="d-flex justify-content-center align-items-center">
+                      <a href="{{ route('jadwal-keberangkatan.edit', $jadwal->id) }}"
+                        class="btn btn-info btn-sm mr-2">Edit</a>
+                      <form action="{{ route('jadwal-keberangkatan.destroy', $jadwal->id) }}" method="POST"
+                        style="display: inline-block;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm"
+                          onclick="return confirm('Apakah Anda yakin ingin menghapus jadwal keberangkatan ini?')">Hapus</button>
+                      </form>
+                    </div>
                   </td>
                 </tr>
                 @empty
@@ -109,7 +112,7 @@
 <script>
   $("#table-1").dataTable({
   "columnDefs": [
-    { "sortable": false, "targets": [0, 7] }
+    { "sortable": false, "targets": [0, 8] }
   ]
 });
 function filterByJenis(jenisId) {

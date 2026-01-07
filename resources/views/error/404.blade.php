@@ -1,4 +1,4 @@
-@extends('layouts.guest1')
+@extends('layouts.guest')
 @section('content')
         <div class="page-error">
           <div class="page-inner">

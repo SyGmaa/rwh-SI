@@ -44,3 +44,19 @@
     margin-right: 15px;
     box-shadow: 0 9px 8px rgba(0, 0, 0, 0.1);
 }
+/* CSS Overrides for Navbar Vertical Alignment */
+/* .main-navbar,
+.main-navbar .navbar-nav,
+.main-navbar .form-inline {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.main-navbar .nav-link {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.main-navbar .search-element {
+    margin-top: 2px; /* Slight adjustment for search input alignment */
+} */

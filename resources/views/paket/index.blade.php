@@ -1,4 +1,4 @@
-@extends('layouts.app1')
+@extends('layouts.app')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('admin/assets/bundles/datatables/datatables.min.css') }}">
@@ -99,3 +99,4 @@ function filterByJenis(jenisId) {
 }
 </script>
 @endsection
+

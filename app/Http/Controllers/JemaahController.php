@@ -185,4 +185,16 @@ class JemaahController extends Controller
 
         return view('jemaah.show', compact('jemaah'));
     }
+
+    public function previewFile($id)
+    {
+        $dokumen = \App\Models\DokumenJemaah::findOrFail($id);
+        $path = storage_path('app/public/' . $dokumen->file_path);
+
+        if (!file_exists($path)) {
+            abort(404, 'File not found');
+        }
+
+        return response()->file($path);
+    }
 }

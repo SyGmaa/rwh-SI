@@ -37,8 +37,11 @@ $(function () {
 
   var sidebar_dropdown = function () {
     if ($(".main-sidebar").length) {
-      $(".main-sidebar").niceScroll(sidebar_nicescroll_opts);
-      sidebar_nicescroll = $(".main-sidebar").getNiceScroll();
+      // Only init nicescroll if NOT in mini mode
+      if(!$("body").hasClass("sidebar-mini")) {
+        $(".main-sidebar").niceScroll(sidebar_nicescroll_opts);
+        sidebar_nicescroll = $(".main-sidebar").getNiceScroll();
+      }
 
       $(".main-sidebar .sidebar-menu li a.has-dropdown")
         .off("click")
@@ -100,29 +103,48 @@ $(function () {
         $(".main-sidebar").niceScroll(sidebar_nicescroll_opts);
         sidebar_nicescroll = $(".main-sidebar").getNiceScroll();
       }, 500);
+
+      // Cleanup mini sidebar artifacts
       $(".main-sidebar .sidebar-menu > li > ul .dropdown-title").remove();
       $(".main-sidebar .sidebar-menu > li > a").removeAttr("data-toggle");
-      $(".main-sidebar .sidebar-menu > li > a").removeAttr(
-        "data-original-title"
-      );
+      $(".main-sidebar .sidebar-menu > li > a").removeAttr("data-original-title");
       $(".main-sidebar .sidebar-menu > li > a").removeAttr("title");
-      // Preserve open state of dropdown menus
+      
+      // Explicitly dispose tooltips if any exist
+      if (jQuery().tooltip) {
+           $(".main-sidebar .sidebar-menu > li > a").tooltip('dispose');
+      }
+
+      // Preserve open state of dropdown menus and ensuring display block
       $(".main-sidebar .sidebar-menu > li").each(function () {
         let me = $(this);
         if (me.find("> a").hasClass("toggled")) {
           me.find("> .dropdown-menu").show();
+        } else {
+             // Ensure hidden menus are properly hidden (clearing any likely inline styles left by animations)
+             // me.find("> .dropdown-menu").hide(); 
         }
       });
+      
+      // Force trigger resize to fix any layout issues
+      $(window).trigger('resize');
+
     } else {
       body.addClass("sidebar-mini");
       body.removeClass("sidebar-show");
-      sidebar_nicescroll.remove();
-      sidebar_nicescroll = null;
+      // Safe remove
+      if(sidebar_nicescroll !== null && sidebar_nicescroll !== undefined) {
+        sidebar_nicescroll.remove();
+        sidebar_nicescroll = null;
+      }
+      
       $(".main-sidebar .sidebar-menu > li").each(function () {
         let me = $(this);
 
         if (me.find("> .dropdown-menu").length) {
           me.find("> .dropdown-menu").hide();
+          // Avoid duplicate titles
+          me.find("> .dropdown-menu .dropdown-title").remove(); 
           me.find("> .dropdown-menu").prepend(
             '<li class="dropdown-title pt-3">' + me.find("> a").text() + "</li>"
           );

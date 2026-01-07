@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Pendaftaran;
 use App\Models\JadwalKeberangkatan;
 use App\Models\JenisPaket;
+use App\Models\User;
+use App\Notifications\SystemNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class PendaftaranController extends Controller
 {
@@ -99,6 +102,18 @@ class PendaftaranController extends Controller
             $jadwal->status = 'Penuh';
         }
         $jadwal->save();
+
+        // Send Notification to all users (admins)
+        $users = User::all();
+        $message = "Pendaftaran baru: " . $pendaftaran->nama_pendaftar . " untuk paket " . $jadwal->paket->nama_paket;
+        $url = route('pendaftaran.show', $pendaftaran->id);
+        Notification::send($users, new SystemNotification($message, $url));
+
+        // Check for Low Quota Alert
+        if ($jadwal->kuota > 0 && $jadwal->kuota < 5) {
+            $quotaMessage = "PERINGATAN: Sisa kuota untuk paket " . $jadwal->paket->nama_paket . " sisa " . $jadwal->kuota . " slot!";
+            Notification::send($users, new SystemNotification($quotaMessage, $url));
+        }
 
         return redirect()->route('pendaftaran.index')->with('success', 'Pendaftaran berhasil ditambahkan.');
     }

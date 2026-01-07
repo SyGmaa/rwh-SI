@@ -1,23 +1,34 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Team Settings') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div>
-        <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-            @livewire('teams.update-team-name-form', ['team' => $team])
+@section('title', 'Team Settings')
 
-            @livewire('teams.team-member-manager', ['team' => $team])
+@section('content')
+<div class="section-body">
+    <h2 class="section-title">{{ __('Team Settings') }}</h2>
+    <p class="section-lead">Manage your team settings and members.</p>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    @livewire('teams.update-team-name-form', ['team' => $team])
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    @livewire('teams.team-member-manager', ['team' => $team])
+                </div>
+            </div>
 
             @if (Gate::check('delete', $team) && ! $team->personal_team)
-                <x-section-border />
-
-                <div class="mt-10 sm:mt-0">
+            <div class="card mt-4 border-danger">
+                <div class="card-body">
                     @livewire('teams.delete-team-form', ['team' => $team])
                 </div>
+            </div>
             @endif
         </div>
     </div>
-</x-app-layout>
+</div>
+@endsection

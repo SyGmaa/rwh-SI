@@ -1,45 +1,78 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="en">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+<!-- index.html  21 Nov 2019 03:44:50 GMT -->
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+  <title>@yield('title', 'Admin RWH') - RWH</title>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Styles -->
-        @livewireStyles
-    </head>
-    <body class="font-sans antialiased">
-        <x-banner />
 
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @livewire('navigation-menu')
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="{{ asset('admin/assets/css/app.min.css') }}">
+  <!-- Template CSS -->
+  <link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/assets/css/components.css') }}">
+  <!-- Custom style CSS -->
+  <link rel="stylesheet" href="{{ asset('admin/assets/css/custom.css') }}">
+  @yield('css')
+  <link rel='shortcut icon' type='image/x-icon' href='{{ asset(' admin/assets/img/gabut_logo.ico') }}' />
+</head>
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+<body>
+  <script>
+    (function() {
+      try {
+        var settings = localStorage.getItem("themeSettings");
+        if (settings) {
+          settings = JSON.parse(settings);
+          if (settings.miniSidebar) {
+            document.body.classList.add("sidebar-mini");
+          }
+        }
+      } catch (e) {
+        console.error("Error loading theme settings:", e);
+      }
+    })();
+  </script>
+  <div class="loader"></div>
+  <div id="app">
+    <div class="main-wrapper main-wrapper-1">
+      <!-- Navbar -->
+      @include('layouts.partials.navbar')
+      <!-- Sidebar -->
+      @include('layouts.partials.sidebar')
+      <!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          @yield('content')
+          {{ $slot ?? '' }}
+        </section>
+        @include('layouts.partials.settingsidebar')
+      </div>
+      @include('layouts.partials.footer')
+    </div>
+  </div>
+  @stack('modals')
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
+  <!-- General JS Scripts -->
+  <script src="{{ asset('admin/assets/js/app.min.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <!-- JS Libraies -->
+  <script src="{{ asset('admin/assets/bundles/apexcharts/apexcharts.min.js') }}"></script>
+  <!-- Page Specific JS File -->
+  <!-- Page Specific JS File -->
+  <!-- Template JS File -->
+  <script src="{{ asset('admin/assets/js/scripts.js') }}"></script>
+  <!-- Custom JS File -->
+  <script src="{{ asset('admin/assets/js/custom.js') }}"></script>
+  @yield('js')
+</body>
 
-        @stack('modals')
 
-        @livewireScripts
-    </body>
+<!-- index.html  21 Nov 2019 03:47:04 GMT -->
+
 </html>

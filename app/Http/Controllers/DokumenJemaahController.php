@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\DokumenJemaah;
 use App\Models\Jemaah;
 use App\Models\JenisDokumen;
+use App\Models\User;
+use App\Notifications\SystemNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 
 class DokumenJemaahController extends Controller
@@ -38,7 +41,7 @@ class DokumenJemaahController extends Controller
             ->get();
         $jenisPakets = \App\Models\JenisPaket::all();
 
-        return view('dokumen_jemaah.index', compact('jemaahs', 'jadwalKeberangkatans', 'jadwalId', 'jenisPakets', 'jenisId'));
+        return view('dokumen-jemaah.index', compact('jemaahs', 'jadwalKeberangkatans', 'jadwalId', 'jenisPakets', 'jenisId'));
     }
 
     public function create()
@@ -52,7 +55,7 @@ class DokumenJemaahController extends Controller
             $jenisDokumens = $jenisDokumens->whereNotIn('id', $uploadedJenisIds);
         }
 
-        return view('dokumen_jemaah.create', compact('jemaahs', 'jenisDokumens'));
+        return view('dokumen-jemaah.create', compact('jemaahs', 'jenisDokumens'));
     }
 
     public function store(Request $request)
@@ -105,8 +108,15 @@ class DokumenJemaahController extends Controller
         }
 
         // Update status_berkas for each unique jemaah
+        $users = User::all();
         foreach ($uniqueJemaahIds as $jemaahId) {
             $this->updateStatusBerkas($jemaahId);
+
+            // Send Notification
+            $jemaah = Jemaah::find($jemaahId);
+            $message = "Dokumen baru diupload untuk jemaah: " . $jemaah->nama_jemaah;
+            $url = route('dokumen-jemaah.index', ['jadwal_id' => $jemaah->pendaftaran->jadwal_id]);
+            Notification::send($users, new SystemNotification($message, $url));
         }
 
         return redirect()->route('dokumen-jemaah.index')->with('success', 'Dokumen Jemaah berhasil ditambahkan.');
@@ -125,7 +135,7 @@ class DokumenJemaahController extends Controller
             ->toArray();
         $jenisDokumens = $jenisDokumens->whereNotIn('id', $uploadedJenisIds);
 
-        return view('dokumen_jemaah.edit', compact('dokumenJemaah', 'jemaahs', 'jenisDokumens'));
+        return view('dokumen-jemaah.edit', compact('dokumenJemaah', 'jemaahs', 'jenisDokumens'));
     }
 
     public function update(Request $request, $id)

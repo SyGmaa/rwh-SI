@@ -1,4 +1,4 @@
-@extends('layouts.app1')
+@extends('layouts.app')
 @section('content')
           <div class="section-body">
             <div class="row">
@@ -111,3 +111,4 @@ $(document).ready(function() {
 });
 </script>
 @endsection
+

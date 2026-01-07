@@ -1,4 +1,4 @@
-@extends('layouts.app1')
+@extends('layouts.app')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('admin/assets/bundles/datatables/datatables.min.css') }}">
@@ -195,3 +195,4 @@ $("#table-jemaah").dataTable({
 });
 </script>
 @endsection
+

@@ -1,45 +1,52 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div>
-        <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+@section('title', 'User Profile')
+
+@section('content')
+<div class="section-body">
+    <h2 class="section-title">{{ __('Profile') }}</h2>
+    <p class="section-lead">Manage your account settings and security.</p>
+
+    <div class="row">
+        <div class="col-12">
             @if (Laravel\Fortify\Features::canUpdateProfileInformation())
-                @livewire('profile.update-profile-information-form')
-
-                <x-section-border />
+            <div class="card">
+                <div class="card-body">
+                    @livewire('profile.update-profile-information-form')
+                </div>
+            </div>
             @endif
 
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
-                <div class="mt-10 sm:mt-0">
+            <div class="card mt-4">
+                <div class="card-body">
                     @livewire('profile.update-password-form')
                 </div>
-
-                <x-section-border />
+            </div>
             @endif
 
             @if (Laravel\Fortify\Features::canManageTwoFactorAuthentication())
-                <div class="mt-10 sm:mt-0">
+            <div class="card mt-4">
+                <div class="card-body">
                     @livewire('profile.two-factor-authentication-form')
                 </div>
-
-                <x-section-border />
+            </div>
             @endif
 
-            <div class="mt-10 sm:mt-0">
-                @livewire('profile.logout-other-browser-sessions-form')
+            <div class="card mt-4">
+                <div class="card-body">
+                    @livewire('profile.logout-other-browser-sessions-form')
+                </div>
             </div>
 
             @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
-                <x-section-border />
-
-                <div class="mt-10 sm:mt-0">
+            <div class="card mt-4 border-danger">
+                <div class="card-body">
                     @livewire('profile.delete-user-form')
                 </div>
+            </div>
             @endif
         </div>
     </div>
-</x-app-layout>
+</div>
+@endsection

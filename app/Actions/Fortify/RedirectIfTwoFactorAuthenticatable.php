@@ -155,6 +155,6 @@ class RedirectIfTwoFactorAuthenticatable implements RedirectsIfTwoFactorAuthenti
 
         TwoFactorAuthenticationChallenged::dispatch($user);
 
-        return redirect()->route('users.two-factor');
+        return redirect()->route('two-factor.login');
     }
 }

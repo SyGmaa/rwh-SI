@@ -1,4 +1,4 @@
-@extends('layouts.app1')
+@extends('layouts.app')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('admin/assets/bundles/datatables/datatables.min.css') }}">
@@ -83,3 +83,4 @@
 <script src="{{ asset('admin/assets/bundles/jquery-ui/jquery-ui.min.js') }}"></script>
 <script src="{{ asset('admin/assets/js/page/datatables.js') }}"></script>
 @endsection
+

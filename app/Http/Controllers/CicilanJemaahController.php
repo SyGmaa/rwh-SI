@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\CicilanJemaah;
 use App\Models\JenisPaket;
+use App\Models\User;
+use App\Notifications\SystemNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class CicilanJemaahController extends Controller
 {
@@ -36,14 +39,14 @@ class CicilanJemaahController extends Controller
             })
             ->get();
 
-        return view('cicilan_jemaah.index', compact('cicilanJemaahs', 'jenisPakets', 'jenisId', 'jadwalKeberangkatans', 'jadwalId'));
+        return view('cicilan-jemaah.index', compact('cicilanJemaahs', 'jenisPakets', 'jenisId', 'jadwalKeberangkatans', 'jadwalId'));
     }
 
     public function create()
     {
         $jemaahs = \App\Models\Jemaah::with('pendaftaran.jadwalKeberangkatan.paket.jenisPaket')->get();
 
-        return view('cicilan_jemaah.create', compact('jemaahs'));
+        return view('cicilan-jemaah.create', compact('jemaahs'));
     }
 
     public function store(Request $request)
@@ -81,6 +84,12 @@ class CicilanJemaahController extends Controller
             // Check if pendaftaran is fully paid
             $pendaftaran = $jemaah->pendaftaran;
             // Note: status_pembayaran column has been removed, so no update needed
+
+            // Send Notification for each payment
+            $users = User::all();
+            $message = "Pembayaran baru dari " . $jemaah->nama_jemaah . " sebesar Rp " . number_format($cicilanData['nominal_cicilan'], 0, ',', '.');
+            $url = route('cicilan-jemaah.index');
+            Notification::send($users, new SystemNotification($message, $url));
         }
 
         return redirect()->route('cicilan-jemaah.index')->with('success', 'Cicilan Jemaah berhasil ditambahkan.');
@@ -91,7 +100,7 @@ class CicilanJemaahController extends Controller
         $cicilanJemaah = CicilanJemaah::with('jemaah.pendaftaran.jadwalKeberangkatan.paket.jenisPaket')->findOrFail($id);
         $jemaahs = \App\Models\Jemaah::with('pendaftaran.jadwalKeberangkatan.paket.jenisPaket')->get();
 
-        return view('cicilan_jemaah.edit', compact('cicilanJemaah', 'jemaahs'));
+        return view('cicilan-jemaah.edit', compact('cicilanJemaah', 'jemaahs'));
     }
 
     public function update(Request $request, $id)
@@ -125,5 +134,11 @@ class CicilanJemaahController extends Controller
         $cicilanJemaah->delete();
 
         return redirect()->route('cicilan-jemaah.index')->with('success', 'Cicilan Jemaah berhasil dihapus.');
+    }
+    public function cetakKwitansi($id)
+    {
+        $cicilan = CicilanJemaah::with('jemaah.pendaftaran.jadwalKeberangkatan.paket')->findOrFail($id);
+        $settings = \App\Models\Setting::all()->pluck('value', 'key');
+        return view('cicilan-jemaah.cetak', compact('cicilan', 'settings'));
     }
 }
